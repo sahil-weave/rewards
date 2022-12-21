@@ -4,6 +4,7 @@ import { useState } from "react";
 const PatientContext = createContext();
 
 export const PatientProvider = ({ children }) => {
+    const [loggedIn, setIsLoggedIn] = useState(false)
     const masterObj = [
         {
             reward_name:"5% off on next visit",
@@ -21,14 +22,6 @@ export const PatientProvider = ({ children }) => {
               status:"expired",
               user_email:"user123@gmail.com",
               price:"10",
-            },
-            {
-              reward_name:"50% off on teeth Whitening",
-              reward_id:"3",
-              claimed:"7/27/2022",
-              status:"active",
-              user_email:"user123@gmail.com",
-              price:"350",
             },{
             reward_name:"flat 15$ off on next visit",
             reward_id:"2",
@@ -38,14 +31,7 @@ export const PatientProvider = ({ children }) => {
             price:"25",
 
           },
-          {
-              reward_name:"5% off on next visit",
-              reward_id:"1",
-              claimed:"2/13/2022",
-              status:"expired",
-              user_email:"user@gmail.com",
-              price:"10",
-            },
+
             {
               reward_name:"Free Teeth cleaning",
               reward_id:"5",
@@ -92,12 +78,6 @@ export const PatientProvider = ({ children }) => {
              user_email : "rahul@gmail.com",
              debited_on:""
          },
-         {
-            points : 200,
-            credited_on :"05/9/2021",
-            user_email : "user@gmail.com",
-            debited_on:""
-        },
         {
            points : 25,
            credited_on :"05/9/2021",
@@ -116,12 +96,6 @@ export const PatientProvider = ({ children }) => {
             user_email : "user123@gmail.com",
             debited_on:""
         },
-        {
-            points : 100,
-            credited_on :"07/14/2021",
-            user_email : "rahul@gmail.com",
-            debited_on:""
-        },
        {
            points : 700,
            credited_on :"",
@@ -133,7 +107,7 @@ export const PatientProvider = ({ children }) => {
   const [masterHistory, setMasterHistory] = useState(masterLedger)
   const [masterPoints, setMasterPoints] = useState(649);
   return (
-    <PatientContext.Provider value={{ Patients, setPatients, masterHistory, setMasterHistory, masterPoints, setMasterPoints }}>
+    <PatientContext.Provider value={{ loggedIn, setIsLoggedIn, Patients, setPatients, masterHistory, setMasterHistory, masterPoints, setMasterPoints }}>
       {children}
     </PatientContext.Provider>
   );

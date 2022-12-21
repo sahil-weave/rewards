@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../Images/weave-weave.avif"
 import avatar from "../Images/undraw_male_avatar_re_y880.svg"
-import { useWindowDimensions } from "../Utils";
+import { usePatients, useWindowDimensions } from "../Utils";
 function Header() {
+    const {loggedIn, setIsLoggedIn} = usePatients();
   const { height, width } = useWindowDimensions();
   const [offset, setOffset] = useState(0);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
       setUsername(sessionStorage.getItem("username"))
+      if(loggedIn!==true)
+        navigate("/auth")
       const onScroll = () => setOffset(window.pageYOffset);
       // clean up code
       window.removeEventListener('scroll', onScroll);
@@ -18,7 +21,10 @@ function Header() {
   }, []);
   const logoutHandler = () =>{
     sessionStorage.clear();
-    navigate(0)
+    setIsLoggedIn(false)
+    setTimeout(() => {
+        navigate("/auth")
+      }, 0);
   }
   return (
       <nav className={offset>0?"navBar headerShadow":"navBar"} style={{padding:"0.7rem 0"}}>
@@ -29,7 +35,7 @@ function Header() {
         <ul className="centerDiv" style={width<839?{display:"none"}:{display:"flex", justifyContent:"space-around"}}>
          
         </ul>
-        {username?(<div className="rightNav">
+        {loggedIn?(<div className="rightNav">
           <div style={{height:"5rem", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center"}}>
             <img src={avatar} style={{height:"100%"}} alt="avatar" />
             <span style={{color:"white"}}>{username}</span>
@@ -39,9 +45,7 @@ function Header() {
           </Link>
           <button className="btn btn-secondaryAuth" style={width>839?{display:"none"}:{}}>=</button>
         </div>):(<div className="rightNav">
-          <Link to="/auth" className={offset>0?"btn btn-auth-dark":"btn btn-auth"} style={width<600?{display:"none"}:{}}>
-            Signup
-          </Link>
+         
           <Link to="/auth" className={offset>0?"btn btn-secondaryAuth-dark":"btn btn-secondaryAuth"}  style={width<839?{display:"none"}:{}}>
             Login
           </Link>
