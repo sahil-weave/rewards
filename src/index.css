@@ -1,0 +1,13 @@
+@import url(./Styles/index.css);
+body {
+  margin: 0;
+}
+a,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

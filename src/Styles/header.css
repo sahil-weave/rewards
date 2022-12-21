@@ -1,0 +1,81 @@
+.brandName {
+  font-size: 2.5rem;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  margin: 0.5rem 0.5rem 0.5rem 1rem;
+  color: black;
+}
+.headerShadow {
+  box-shadow: 0 24px 64px rgb(38 33 74 / 10%);
+  background-color: white;
+}
+/* Navigation */
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100vw;
+  transition: all ease-in-out 0.7s;
+}
+.navBar h1 {
+  cursor: pointer;
+}
+.navShadow {
+  background-image: linear-gradient(rgba(0, 0, 0, 1), rgb(130, 129, 129));
+  height: 1rem;
+}
+.navBar .badgeWrap {
+  cursor: pointer;
+}
+.centerDiv {
+  display: flex;
+}
+.navBar ul {
+  flex: 0.5 1 auto;
+  list-style-type: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0px;
+}
+.navBar li {
+  text-decoration: none;
+  margin-left: 1.2rem;
+  font-size: 1.4rem;
+}
+.rightNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.btn {
+  padding: 0.7rem 1.2rem;
+  font-size: 1.4rem;
+  border-radius: 10px;
+}
+.rightNav .badgeWrap {
+  padding: 0.2rem;
+}
+.rightNav .btn {
+  align-self: center;
+}
+.btn-auth {
+  background-color: white;
+}
+.btn-secondaryAuth {
+  background-color: rgb(255, 255, 255, 0.5);
+  margin: 0 1.5rem;
+}
+.btn-auth-dark {
+  background-color: var(--primary);
+  color: white !important;
+  box-shadow: 0px 0px 8px 4px rgba(211, 213, 255, 0.3),
+    0px 0px 2px 2px rgb(211, 213, 255, 0.3);
+}
+.btn-secondaryAuth-dark {
+  box-shadow: 0px 0px 8px 4px rgba(211, 213, 255, 0.3),
+    0px 0px 2px 2px rgb(211, 213, 255, 0.3);
+  margin: 0 1.5rem;
+}

@@ -1,0 +1,109 @@
+.gridContainer {
+  display: grid;
+  width: 100vw;
+  height: calc(100vh - 8rem);
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.child1 {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.child1 h2 {
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+.child2 {
+  background-image: url("/src/Images/undraw_happy_birthday_re_c16u.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: relative;
+  z-index: 5;
+}
+.child3 {
+  grid-area: 2 / 1 / span 2 / span 2;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1fr 1fr;
+}
+.boxContent {
+  grid-area: 1 / 2 / span 2 / span 4;
+  overflow: hidden;
+}
+.rewardTab {
+  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all ease-in-out 0.8s;
+}
+.selected {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 10%;
+  padding: 1rem;
+}
+.boxTable {
+  max-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border-collapse: collapse;
+  transition: all ease-in-out 0.3s;
+  border-radius: 20px;
+}
+.boxTable tr:hover {
+  background-color: var(--slight-prim);
+}
+.boxHead {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 900;
+}
+tr {
+  border-radius: 20%;
+  height: 4rem;
+  max-width: 70vw;
+  overflow-x: scroll;
+}
+.boxHead:hover {
+  background-color: var(--primary) !important;
+}
+.boxTable th {
+  text-align: left;
+  font-size: large;
+}
+.boxTable td,
+th {
+  padding-left: 10px;
+}
+
+.redeemTable {
+  cursor: pointer;
+  text-align: center;
+  transition: all ease-in-out 0.5s;
+}
+.redeemTable:hover {
+  font-size: 1.5rem;
+  margin: 10px;
+}
+
+#square {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  border-radius: 0 0 0 80%;
+  right: 0;
+  width: 20rem;
+  height: 14rem;
+  max-width: 40vw;
+  max-height: 25vh;
+  background-image: linear-gradient(var(--primary), var(--lighter-prim));
+  background-color: var(--primary);
+}

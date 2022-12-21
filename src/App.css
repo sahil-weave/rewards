@@ -1,0 +1,7 @@
+.invalid {
+  background-image: url("./Images/undraw_page_not_found_re_e9o6.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: calc(100vh - 8rem);
+  width: 100vw;
+}
