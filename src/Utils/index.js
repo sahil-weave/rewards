@@ -1,2 +1,3 @@
 import useWindowDimensions from "./useWindowDimensions";
-export {useWindowDimensions}
+import { usePatients } from "./patientContext";
+export {useWindowDimensions, usePatients}

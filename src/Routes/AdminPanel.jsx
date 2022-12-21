@@ -1,43 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
+import { usePatients } from '../Utils';
 function AdminPanel() {
-    const [historyObj, setHistoryObj] = useState([])
-    const [activerewards, setActiveRewards] = useState(true);
-    const [rewardStatus, setRewardStatus] = useState([])
-    useEffect(() => {
-        if(!sessionStorage.getItem("username"))
-        {
-          navigate("/auth")
-        }
-        if(sessionStorage.getItem("username")!=="Admin")
-        {
-            navigate("/")
-        }
-        setHistoryObj(historyRewards)
-        setRewardStatus(reward)
-    }, []);
-    const historyRewards = [
-        {
-             points : 200,
-             credited_on :"07/14/2021",
-             user_email : "rahul@gmail.com",
-         },
-         {
-            points : 200,
-            credited_on :"05/9/2021",
-            user_email : "user4@gmail.com",
-        },
-        {
-            points : 245,
-            credited_on :"10/19/2021",
-            user_email : "user2@gmail.com",
-        },
-        {
-            points : 175,
-            credited_on :"03/31/2021",
-            user_email : "user5@gmail.com",
-        }
-    ]
     const reward = [
         {
           reward_name:"5% off on next visit",
@@ -62,6 +26,46 @@ function AdminPanel() {
           },
     
       ]
+    const [historyObj, setHistoryObj] = useState([])
+    const [activerewards, setActiveRewards] = useState(true);
+    const [rewardStatus, setRewardStatus] = useState([])
+    const {Patients, setPatients} = usePatients();
+    useEffect(() => {
+        if(!sessionStorage.getItem("username"))
+        {
+          navigate("/auth")
+        }
+        if(sessionStorage.getItem("username")!=="Admin")
+        {
+            navigate("/")
+        }
+        setHistoryObj(historyRewards)
+        setRewardStatus(reward)
+        setPatients(reward)
+    }, []);
+    console.log(Patients)
+    const historyRewards = [
+        {
+             points : 200,
+             credited_on :"07/14/2021",
+             user_email : "rahul@gmail.com",
+         },
+         {
+            points : 200,
+            credited_on :"05/9/2021",
+            user_email : "user4@gmail.com",
+        },
+        {
+            points : 245,
+            credited_on :"10/19/2021",
+            user_email : "user2@gmail.com",
+        },
+        {
+            points : 175,
+            credited_on :"03/31/2021",
+            user_email : "user5@gmail.com",
+        }
+    ]
 const navigate = useNavigate();
   return (
     <div className='adminContainer'>
