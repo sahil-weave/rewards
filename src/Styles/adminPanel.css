@@ -1,0 +1,7 @@
+.adminContainer{
+    display: flex;
+    flex-direction: column;
+}
+.officeContainer{
+    height: 10rem;
+}
