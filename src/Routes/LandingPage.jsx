@@ -43,13 +43,13 @@ function LandingPage() {
       reward_id:"3"
     },
     {
-      reward:"Amazon Gift card worth 35$",
+      reward:"Free pet grooming ",
       cost:"500",
       status:false,
       reward_id:"4"
     },
     {
-      reward:"Free teeth cleaning",
+      reward:"40% off on contact lenses",
       cost:"700",
       status:true,
       reward_id:"5"
