@@ -27,9 +27,7 @@ function Header() {
           <img src={logo} style={{height:"5rem"}} alt="logo" />
         </Link>
         <ul className="centerDiv" style={width<839?{display:"none"}:{display:"flex", justifyContent:"space-around"}}>
-          <li style={{cursor:"pointer"}}>Products</li>
-          <li style={{cursor:"pointer"}}>Contact Sales</li>
-          <li style={{cursor:"pointer"}}>Services</li>
+         
         </ul>
         {username?(<div className="rightNav">
           <div style={{height:"5rem", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center"}}>

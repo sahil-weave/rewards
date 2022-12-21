@@ -4,53 +4,73 @@ function LandingPage() {
   const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
   const [activerewards, setActiveRewards] = useState(true);
+  const [rewardObj, setRewardObj] = useState([])
+  const [historyObj, setHistoryObj] = useState([])
+  const [myPoint, setMyPoint] = useState(389);
   useEffect(() => {
     if(!sessionStorage.getItem("username"))
     {
       navigate("/auth")
     }
+    if(sessionStorage.getItem("username")==="Admin")
+    {
+        navigate("/admin")
+    }
+    setRewardObj(rewards)
+    setHistoryObj(History)
     const onScroll = () => setOffset(window.pageYOffset);
     // clean up code
     window.removeEventListener("scroll", onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+}, []);
+console.log(historyObj)
   const rewards = [
     {
       reward:"5% off on next visit",
-      cost:"10 Points"
+      cost:"10",
+      status:false
     },
     {
       reward:"flat 15$ off on next visit",
-      cost:"25 Points"
+      cost:"25",
+      status:true
     },
     {
       reward:"50% off on teeth whitenings",
-      cost:"350 Points"
+      cost:"350",
+      status:true
     },
     {
       reward:"Amazon Gift card worth 35$",
-      cost:"500 Points"
+      cost:"500",
+      status:false
     },
     {
       reward:"Free teeth cleaning",
-      cost:"700 Points"
+      cost:"700",
+      status:true
     }
 
   ]
   const History = [
     {
       reward:"5% off on next visit",
-      cost:"10 Points",
-      claimed:"13 Feb 2022"
+      cost:"10",
+      claimed:"2/13/2022"
     },
     {
       reward:"Amazon Gift card worth 35$",
-      cost:"500 Points",
-      claimed:"27 Aug 2022"
+      cost:"500",
+      claimed:"7/27/2022"
     },
 
   ]
+  const redeemHandler = (ele) =>{
+    console.log("reached")
+    setRewardObj([...rewardObj] )
+    setHistoryObj([...historyObj, {...ele, claimed:new Date().toLocaleDateString("en-US")}])
+  }
   return (
     <div style={{ minWidth: "100vw" }}>
       <div id="square" contentEditable />
@@ -58,13 +78,13 @@ function LandingPage() {
       <div className="gridContainer">
         <div className="child1">
           <div style={{ fontSize: "1.8rem", padding: "10px" }}>
-            Introducting{" "}
+            Introducing{" "}
             <span style={{ color: "var(--primary)", fontWeight: "900" }}>
               Weave Rewardz!
             </span>
           </div>
           <div style={{ fontSize: "1.3rem" }}>
-            So far, your loyalty has accumulated 300 Points!
+            Available Balance: {myPoint} Points!
           </div>
         </div>
         <div className="child2"></div>
@@ -111,11 +131,27 @@ function LandingPage() {
                   <th style={{width:"20%"}}>Cost</th>
                   <th style={{width:"20%"}}>{""}</th>
                 </tr>
-                {rewards.map((ele,index)=>{
-                  return <tr key={index}>
+                {rewardObj.map((ele,index)=>{
+                  return <tr key={index} style={ele.status?{}:{pointerEvents:"none", backgroundColor:"grey"}}>
                     <td style={{width:"50%"}}>{ele.reward}</td>
-                    <td style={{width:"20%"}}>{ele.cost}</td>
-                    <td className="redeemTable">Redeem</td>
+                    <td style={{width:"20%"}}>{ele.cost} Points</td>
+                    <td className="redeemTable" onClick={()=>{
+                        let res=window.confirm("Are you sure you want to redeem \""+ele.reward+"\"?")
+                        if(res)
+                        {
+                            if(myPoint>Number(ele.cost))
+                        {
+                            console.log(typeof(ele.cost))
+                            setMyPoint(myPoint - Number(ele.cost))
+                            ele.status = false
+                            redeemHandler(ele)
+                        }
+                        else
+                        {
+                            window.alert("Insufficient amount")
+                        }}
+                        }
+                        }>Redeem</td>
                   </tr>
                 })}
               </table>
@@ -128,10 +164,10 @@ function LandingPage() {
                   <th style={{width:"20%"}}>Cost</th>
                   <th style={{width:"20%"}}>Claimed on</th>
                 </tr>
-                {History.map((ele,index)=>{
+                {historyObj.map((ele,index)=>{
                   return <tr key={index}>
                     <td style={{width:"50%"}}>{ele.reward}</td>
-                    <td style={{width:"20%"}}>{ele.cost}</td>
+                    <td style={{width:"20%"}}>{ele.cost} Points</td>
                     <td style={{width:"20%"}}>{ele.claimed}</td>
                   </tr>
                 })}
