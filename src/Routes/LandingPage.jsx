@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePatients } from "../Utils";
 function LandingPage() {
   const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
   const [activerewards, setActiveRewards] = useState(true);
   const [rewardObj, setRewardObj] = useState([])
-  const [historyObj, setHistoryObj] = useState([])
-  const [myPoint, setMyPoint] = useState(389);
+  const {Patients, setPatients, masterHistory, setMasterHistory, masterPoints, setMasterPoints} = usePatients();
   useEffect(() => {
     if(!sessionStorage.getItem("username"))
     {
@@ -17,60 +17,45 @@ function LandingPage() {
         navigate("/admin")
     }
     setRewardObj(rewards)
-    setHistoryObj(History)
     const onScroll = () => setOffset(window.pageYOffset);
     // clean up code
     window.removeEventListener("scroll", onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
 }, []);
-console.log(historyObj)
   const rewards = [
     {
       reward:"5% off on next visit",
       cost:"10",
-      status:false
+      status:false,
+      reward_id:"1"
     },
     {
       reward:"flat 15$ off on next visit",
       cost:"25",
-      status:true
+      status:true,
+      reward_id:"2"
     },
     {
       reward:"50% off on teeth whitenings",
       cost:"350",
-      status:true
+      status:true,
+      reward_id:"3"
     },
     {
       reward:"Amazon Gift card worth 35$",
       cost:"500",
-      status:false
+      status:false,
+      reward_id:"4"
     },
     {
       reward:"Free teeth cleaning",
       cost:"700",
-      status:true
+      status:true,
+      reward_id:"5"
     }
 
   ]
-  const History = [
-    {
-      reward:"5% off on next visit",
-      cost:"10",
-      claimed:"2/13/2022"
-    },
-    {
-      reward:"Amazon Gift card worth 35$",
-      cost:"500",
-      claimed:"7/27/2022"
-    },
-
-  ]
-  const redeemHandler = (ele) =>{
-    console.log("reached")
-    setRewardObj([...rewardObj] )
-    setHistoryObj([...historyObj, {...ele, claimed:new Date().toLocaleDateString("en-US")}])
-  }
   return (
     <div style={{ minWidth: "100vw" }}>
       <div id="square" contentEditable />
@@ -84,7 +69,7 @@ console.log(historyObj)
             </span>
           </div>
           <div style={{ fontSize: "1.3rem" }}>
-            Available Balance: {myPoint} Points!
+            Available Balance: {masterPoints} Points!
           </div>
         </div>
         <div className="child2"></div>
@@ -132,27 +117,42 @@ console.log(historyObj)
                   <th style={{width:"20%"}}>{""}</th>
                 </tr>
                 {rewardObj.map((ele,index)=>{
-                  return <tr key={index} style={ele.status?{}:{pointerEvents:"none", backgroundColor:"grey"}}>
-                    <td style={{width:"50%"}}>{ele.reward}</td>
-                    <td style={{width:"20%"}}>{ele.cost} Points</td>
-                    <td className="redeemTable" onClick={()=>{
-                        let res=window.confirm("Are you sure you want to redeem \""+ele.reward+"\"?")
-                        if(res)
-                        {
-                            if(myPoint>Number(ele.cost))
-                        {
-                            console.log(typeof(ele.cost))
-                            setMyPoint(myPoint - Number(ele.cost))
-                            ele.status = false
-                            redeemHandler(ele)
-                        }
-                        else
-                        {
-                            window.alert("Insufficient amount")
-                        }}
-                        }
-                        }>Redeem</td>
-                  </tr>
+                  return <tr key={index}>
+                  <td style={{width:"50%"}}>{ele.reward}</td>
+                  <td style={{width:"20%"}}>{ele.cost} Points</td>
+                  <td className="redeemTable" onClick={()=>{
+                      let res=window.confirm("Are you sure you want to redeem \""+ele.reward+"\"?")
+                      if(res)
+                      {
+                          if(masterPoints>Number(ele.cost))
+                      {
+                          setMasterPoints(masterPoints - Number(ele.cost))
+                          setMasterHistory([...masterHistory,         {
+                            points : ele.cost,
+                            credited_on :"",
+                            user_email : sessionStorage.getItem("useremail"),
+                            debited_on:new Date().toLocaleDateString("en-US")
+                        },])
+                        setPatients([
+                            ...Patients,{
+                                reward_name:ele.reward,
+                                reward_id:ele.reward_id,
+                                claimed:new Date().toLocaleDateString("en-US"),
+                                status:"active",
+                                user_email:sessionStorage.getItem("useremail"),
+                                price:ele.cost,
+                    
+                              },
+                        ])
+                        //   redeemHandler(ele)
+                      }
+                      else
+                      {
+                          window.alert("Insufficient amount")
+                      }}
+                      }
+                      }>Redeem</td>
+                </tr>
                 })}
               </table>
             </div>
@@ -164,10 +164,10 @@ console.log(historyObj)
                   <th style={{width:"20%"}}>Cost</th>
                   <th style={{width:"20%"}}>Claimed on</th>
                 </tr>
-                {historyObj.map((ele,index)=>{
-                  return <tr key={index}>
-                    <td style={{width:"50%"}}>{ele.reward}</td>
-                    <td style={{width:"20%"}}>{ele.cost} Points</td>
+                {Patients.map((ele,index)=>{
+                  return sessionStorage.getItem("useremail")===ele.user_email&&<tr key={index}>
+                    <td style={{width:"50%"}}>{ele.reward_name}</td>
+                    <td style={{width:"20%"}}>{ele.price} Points</td>
                     <td style={{width:"20%"}}>{ele.claimed}</td>
                   </tr>
                 })}

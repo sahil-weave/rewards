@@ -33,7 +33,8 @@
 }
 .boxContent {
   grid-area: 1 / 2 / span 2 / span 4;
-  overflow: hidden;
+  overflow: auto;
+  max-height: calc(100vh - 20rem);
 }
 .rewardTab {
   font-size: 1.8rem;

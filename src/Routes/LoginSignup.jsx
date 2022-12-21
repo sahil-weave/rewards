@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePatients } from "../Utils";
 const LoginSignup = () => {
+    const {Patients, masterHistory} = usePatients();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(true)
   const [loginForm, setLoginForm] = useState({
@@ -18,17 +20,25 @@ const LoginSignup = () => {
   const loginHandler = () =>{
     if(loginForm.username==="Sahil" && loginForm.password==="1234")
     {
+      sessionStorage.setItem("useremail","user123@gmail.com")
       sessionStorage.setItem("username",loginForm.username)
       setTimeout(() => {
         navigate(0)
       }, 1000);
+      !localStorage.getItem("Patients")&&localStorage.setItem("Patients", JSON.stringify(Patients))
+      !localStorage.getItem("Ledger")&&localStorage.setItem("Ledger", masterHistory)
+      
     }
     else if(loginForm.username==="Patient" && loginForm.password==="1234")
     {
       sessionStorage.setItem("username",loginForm.username)
+      sessionStorage.setItem("useremail","user@gmail.com")
       setTimeout(() => {
         navigate(0)
       }, 1000);
+      !localStorage.getItem("Patients")&&localStorage.setItem("Patients", Patients)
+      !localStorage.getItem("Ledger")&&localStorage.setItem("Ledger", masterHistory)
+      
     }
     else if(loginForm.username==="Admin" && loginForm.password==="12345")
     {
@@ -36,6 +46,9 @@ const LoginSignup = () => {
       setTimeout(() => {
         navigate(0)
       }, 1000);
+      !localStorage.getItem("Patients")&&localStorage.setItem("Patients", Patients)
+      !localStorage.getItem("Ledger")&&localStorage.setItem("Ledger", masterHistory)
+      
     }
     else
     {

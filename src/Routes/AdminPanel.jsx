@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePatients } from '../Utils';
 function AdminPanel() {
+    
     const reward = [
         {
           reward_name:"5% off on next visit",
@@ -29,7 +30,8 @@ function AdminPanel() {
     const [historyObj, setHistoryObj] = useState([])
     const [activerewards, setActiveRewards] = useState(true);
     const [rewardStatus, setRewardStatus] = useState([])
-    const {Patients, setPatients} = usePatients();
+    const {Patients, setPatients, masterHistory} = usePatients();
+    
     useEffect(() => {
         if(!sessionStorage.getItem("username"))
         {
@@ -39,33 +41,9 @@ function AdminPanel() {
         {
             navigate("/")
         }
-        setHistoryObj(historyRewards)
-        setRewardStatus(reward)
-        setPatients(reward)
+        setHistoryObj(masterHistory)
+        setRewardStatus(Patients)
     }, []);
-    console.log(Patients)
-    const historyRewards = [
-        {
-             points : 200,
-             credited_on :"07/14/2021",
-             user_email : "rahul@gmail.com",
-         },
-         {
-            points : 200,
-            credited_on :"05/9/2021",
-            user_email : "user4@gmail.com",
-        },
-        {
-            points : 245,
-            credited_on :"10/19/2021",
-            user_email : "user2@gmail.com",
-        },
-        {
-            points : 175,
-            credited_on :"03/31/2021",
-            user_email : "user5@gmail.com",
-        }
-    ]
 const navigate = useNavigate();
   return (
     <div className='adminContainer'>
@@ -118,7 +96,7 @@ const navigate = useNavigate();
                   <th style={{width:"15%"}}>Status</th>
                 </tr>
                 {rewardStatus.map((ele,index)=>{
-                  return <tr key={index} style={ele.status!=="expired"?{}:{pointerEvents:"none", backgroundColor:"grey"}}>
+                  return <tr key={index} style={ele.status!=="expired"?{}:{pointerEvents:"none", backgroundColor:"#e8e8e8"}}>
                     <th style={{width:"30%"}}>{ele.user_email}</th>
                     <th style={{width:"5%"}}>{ele.reward_id}</th>
                     <th style={{width:"30%"}}>{ele.reward_name}</th>  
@@ -130,6 +108,8 @@ const navigate = useNavigate();
                         {
                             ele.status="expired"
                             setRewardStatus([...rewardStatus])
+                            setPatients([...rewardStatus])
+                            console.log(Patients)
                         }
                     }}>
                         {ele.status}</th>
@@ -141,15 +121,17 @@ const navigate = useNavigate();
             <div className="boxContent">
               <table className="boxTable">
                 <tr className="boxHead">
-                  <th style={{width:"50%"}}>Email</th>
-                  <th style={{width:"20%"}}>Points</th>
-                  <th style={{width:"20%"}}>Credited on</th>
+                  <th style={{width:"45%"}}>Email</th>
+                  <th style={{width:"15%"}}>Points</th>
+                  <th style={{width:"15%"}}>Credited on</th>
+                  <th style={{width:"15%"}}>Debited on</th>
                 </tr>
                 {historyObj.map((ele,index)=>{
                   return <tr key={index}>
                     <td style={{width:"50%"}}>{ele.user_email}</td>
                     <td style={{width:"20%"}}>{ele.points} Points</td>
-                    <td style={{width:"20%"}}>{ele.credited_on}</td>
+                    <td style={{width:"20%"}}>{ele.credited_on?ele.credited_on:"-"}</td>
+                    <td style={{width:"20%"}}>{ele.debited_on?ele.debited_on:"-"}</td>
                   </tr>
                 })}
               </table>
